@@ -24,9 +24,10 @@ public class PlayerController : MonoBehaviour
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
 
-        Vector3 movementX = Camera.main.transform.right* moveHorizontal;    //  Moves player based on camera position
-        Vector3 movementZ = Camera.main.transform.forward * moveVertical;
-        Vector3 movement = movementX+movementZ;
+        Vector3 movement = new Vector3(moveHorizontal, 0f, moveVertical);
+        movement = Camera.main.transform.TransformDirection(movement);
+        movement.y = 0.0f;
+        movement.Normalize();
 
         rb.AddForce(movement * speed);
     }
@@ -37,10 +38,6 @@ public class PlayerController : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             count = count + 1;
-        }
-
-        if (other.gameObject.CompareTag("Level End")) //If the player collides with the level ender
-        {
             SetCountText();
         }
 
