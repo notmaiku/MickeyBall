@@ -37,6 +37,10 @@ public class PlayerController : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             count = count + 1;
+        }
+
+        if (other.gameObject.CompareTag("Level End")) //If the player collides with the level ender
+        {
             SetCountText();
         }
     }
