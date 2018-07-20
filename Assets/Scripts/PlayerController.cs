@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
 
-        Vector3 movementX = Camera.main.transform.right* moveHorizontal;
+        Vector3 movementX = Camera.main.transform.right* moveHorizontal;    //  Moves player based on camera position
         Vector3 movementZ = Camera.main.transform.forward * moveVertical;
         Vector3 movement = movementX+movementZ;
 

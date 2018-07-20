@@ -12,8 +12,8 @@ public class CameraController : MonoBehaviour
     private float currentX = 0.0f;
     private float currentY = 0.0f;
 
-    private const float Y_ANGLE_MIN = 10.0f;    // Minimum camera angle allowed
-    private const float Y_ANGLE_MAX = 50.0f;    //  Maximum camera angle allowed
+    private const float Y_ANGLE_MIN = 10.0f;    // Minimum vertical camera angle allowed
+    private const float Y_ANGLE_MAX = 50.0f;    //  Maximum vertical camera angle allowed
 
     private void Start()
     {
