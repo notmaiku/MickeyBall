@@ -14,6 +14,8 @@ public class CameraController : MonoBehaviour
 
     private const float Y_ANGLE_MIN = 10.0f;    // Minimum vertical camera angle allowed
     private const float Y_ANGLE_MAX = 50.0f;    //  Maximum vertical camera angle allowed
+    private const float Z_ANGLE_MIN = 3.0f;    // Minimum zoom allowed
+    private const float Z_ANGLE_MAX = 15.0f;    //  Maximum zoom allowed
 
     private void Start()
     {
@@ -26,6 +28,8 @@ public class CameraController : MonoBehaviour
         currentX += Input.GetAxis("Mouse X");   //  Changing to -= inverts camera
         currentY -= Input.GetAxis("Mouse Y");   //  Changing to += inverts camera
         currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX); //  Restricts vertical camera movement
+        distance -= Input.GetAxis("Mouse ScrollWheel")*3;
+        distance = Mathf.Clamp(distance, Z_ANGLE_MIN, Z_ANGLE_MAX);
     }
 
     private void LateUpdate()
