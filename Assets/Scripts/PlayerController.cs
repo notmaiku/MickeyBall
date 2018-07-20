@@ -39,11 +39,20 @@ public class PlayerController : MonoBehaviour
             count = count + 1;
             SetCountText();
         }
+
+        if (other.gameObject.CompareTag("Level End")) //If the player collides with the level ender
+        {
+            SetWinText();
+        }
     }
 
     void SetCountText()
     {
         countText.text = "Count: " + count.ToString();
+    }
+
+    void SetWinText()
+    {
         if (count >= 12)
         {
             winText.text = "You Win!";
