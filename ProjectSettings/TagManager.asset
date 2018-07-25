@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Pick Up
   - Level End
+  - Speed Up
+  - Jump Pad
+  - Frictionless Power Up
   layers:
   - Default
   - TransparentFX

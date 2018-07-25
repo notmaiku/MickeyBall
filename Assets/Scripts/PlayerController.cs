@@ -17,7 +17,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private int count; //How many coins the player has
     private bool isSpedUp; //If the player is currently sped up
+    private bool isFrictionless; //If the player is currently frictionless
     private float speedUpTime = 3; //Seconds the player speeds up upon getting a speed up object
+    private float frictionlessTime = 4; //Seconds the player becomes frictionless
 
     void Start()
     {
@@ -38,21 +40,7 @@ public class PlayerController : MonoBehaviour
         movement.y = 0.0f;
         movement.Normalize();
 
-        //Speeding the player up for a certain amount of time (specified as speedUpTime)
-        if(this.isSpedUp)
-        {
-            this.speedUpTime -= Time.smoothDeltaTime;
-            if (this.speedUpTime >= 0)
-            {
-                this.speed = SPEEDUP_SPEED;
-                this.MAX_VELOCITY = SPEEDUP_MAX_VELOCITY;
-            }
-            else
-            {
-                resetSpeed();
-                this.isSpedUp = false;
-            }
-        }
+        handlePowerUps();
 
         rb.AddForce(movement * speed);
 
@@ -81,6 +69,13 @@ public class PlayerController : MonoBehaviour
             this.speedUpTime = 3; //If the player picks up more even if it has a speed up, the timer will reset.
         }
 
+        if(other.gameObject.CompareTag("Frictionless Power Up"))
+        {
+            other.gameObject.SetActive(false);
+            this.isFrictionless = true;
+            this.frictionlessTime = 4; //If the player picks up more even if it is already frictionless, the timer will reset.
+        }
+
         if(other.gameObject.CompareTag("Jump Pad"))
         {
             Vector3 jumpForce = new Vector3(0.0f, 2500.0f, 0.0f);
@@ -93,10 +88,46 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void handlePowerUps()
+    {
+        //Speeding the player up for a certain amount of time (specified as speedUpTime)
+        if (this.isSpedUp)
+        {
+            this.speedUpTime -= Time.smoothDeltaTime;
+            if (this.speedUpTime >= 0)
+            {
+                this.speed = SPEEDUP_SPEED;
+                this.MAX_VELOCITY = SPEEDUP_MAX_VELOCITY;
+            }
+            else
+            {
+                resetSpeed();
+                this.isSpedUp = false;
+            }
+        }
+
+        //Making the player frictionless
+        if (this.isFrictionless)
+        {
+            this.frictionlessTime -= Time.smoothDeltaTime;
+            if (this.frictionlessTime >= 0)
+            {
+                rb.angularDrag = 0;
+                rb.drag = 0;
+            }
+            else
+            {
+                rb.angularDrag = 3.5f;
+                rb.drag = 0.15f;
+                this.isFrictionless = false;
+            }
+        }
+    }
+
     void resetSpeed()
     {
         this.speed = BASE_SPEED;
-        this.MAX_VELOCITY = 100;
+        this.MAX_VELOCITY = 20;
     }
 
     void SetCountText()
